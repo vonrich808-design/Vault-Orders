@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "storeName": "The Sweet Riches Vault",
+    "tagline": "Small-batch cookies. Limited drops. Once they're gone, they're gone.",
+    "status": "open",
+    "banner": "This week's drop is live.",
+    "closedMessage": "The Vault is closed right now. Check back for the next drop.",
+    "weekLabel": "Week of Oct 5",
+    "pickupInfo": "Pickup in Kailua. Address sent after your order is confirmed.",
+    "deliveryInfo": "Islandwide delivery available. Fee confirmed when we text you.",
+    "taxRate": 4.712,
+    "venmo": "@sweetriches",
+    "cashapp": "$sweetriches808",
+    "applePay": "808-590-8084",
+    "instagram": "@sweetrichess",
+    "email": "sweetricheshawaii@gmail.com"
+  },
+  "cookies": [
+    {
+      "id": "c1",
+      "name": "Brown Butter Chocolate Chunk",
+      "description": "Brown butter, dark chocolate chunks, flaky sea salt.",
+      "price": 5,
+      "available": true,
+      "featured": true,
+      "limit": 24
+    },
+    {
+      "id": "c2",
+      "name": "Gold Leaf Sugar Cookie",
+      "description": "Soft sugar cookie, vanilla buttercream, edible gold.",
+      "price": 6,
+      "available": true,
+      "featured": true,
+      "limit": 24
+    },
+    {
+      "id": "c3",
+      "name": "Double Chocolate Vault",
+      "description": "Deep cocoa dough, dark chocolate center.",
+      "price": 5,
+      "available": true,
+      "featured": false,
+      "limit": 24
+    }
+  ]
+}

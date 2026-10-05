@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sweet Riches Vault</title>
+<meta name="description" content="Limited-drop luxury cookies from Sweet Riches in Kailua, Hawaii.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#050505;
+  --green:#111111;
+  --green-2:#1c1c1c;
+  --gold:#c9a24b;
+  --gold-soft:#e3c987;
+  --cream:#f1ead7;
+  --muted:#9aa396;
+  --line:rgba(201,162,75,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{font-family:'Cinzel',serif;font-weight:600;margin:0}
+
+header{padding:72px 0 44px;text-align:center;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at top,var(--green-2),var(--ink) 70%)}
+header h1{font-size:clamp(2rem,7vw,3.4rem);letter-spacing:.08em;color:var(--gold-soft);margin:14px 0}
+header p{max-width:520px;margin:0 auto;color:var(--muted)}
+.rule{width:64px;height:1px;background:var(--gold);margin:22px auto}
+.banner{margin-top:22px;display:inline-block;border:1px solid var(--line);padding:8px 18px}
+
+section{padding:48px 0}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head h2{font-size:1.35rem;letter-spacing:.1em;color:var(--gold-soft)}
+
+.item{display:grid;grid-template-columns:1fr auto;gap:8px 18px;align-items:center;padding:20px;border:1px solid var(--line);background:linear-gradient(180deg,var(--green),#0a0a0a);margin-bottom:12px}
+.item.feat{border-color:var(--gold)}
+.item h3{font-size:1.05rem;letter-spacing:.05em;color:var(--cream)}
+.item p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.tag{display:inline-block;margin-bottom:6px}
+.price{font-family:'IBM Plex Mono',monospace;color:var(--gold-soft);font-size:1.05rem}
+.qty{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:6px}
+.qty button{width:36px;height:36px;border:1px solid var(--gold);background:transparent;color:var(--gold-soft);font-size:1.2rem;cursor:pointer}
+.qty button:hover{background:var(--gold);color:var(--ink)}
+.qty span{min-width:22px;text-align:center;font-family:'IBM Plex Mono',monospace}
+.soldout{opacity:.45}
+.soldout .qty{display:none}
+
+form{border:1px solid var(--line);padding:24px;background:var(--green)}
+label{display:block;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--cream);font:inherit;font-weight:400;border-radius:0}
+input:focus,select:focus,textarea:focus{outline:1px solid var(--gold)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.row{grid-template-columns:1fr}.item{grid-template-columns:1fr}.qty{justify-content:flex-start}}
+.summary{margin:18px 0;padding:16px;border:1px dashed var(--line);font-family:'IBM Plex Mono',monospace;font-size:.85rem;white-space:pre-wrap}
+.totals div{display:flex;justify-content:space-between;padding:3px 0}
+.totals .grand{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;color:var(--gold-soft);font-size:1.05rem}
+.btn{display:block;width:100%;margin-top:20px;padding:16px;background:var(--gold);color:var(--ink);border:0;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.15em;cursor:pointer;font-size:1rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.note{color:var(--muted);font-size:.9rem}
+.hide{display:none}
+.hp{position:absolute;left:-9999px}
+#success{text-align:center;padding:40px 24px;border:1px solid var(--gold);background:var(--green)}
+#success h2{color:var(--gold-soft);margin-bottom:10px}
+#closed{text-align:center;padding:40px;border:1px solid var(--line)}
+footer{padding:36px 0 110px;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+#bar{position:fixed;left:0;right:0;bottom:0;background:var(--green);border-top:1px solid var(--gold);padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:12px;z-index:10}
+#bar.on{display:flex}
+#bar a{background:var(--gold);color:var(--ink);padding:10px 18px;text-decoration:none;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.1em;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mono">Sweet Riches &middot; Kailua, Hawai&#699;i</div>
+    <h1 id="storeName">The Sweet Riches Vault</h1>
+    <div class="rule"></div>
+    <p id="tagline"></p>
+    <div id="banner" class="banner mono hide"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="loading" class="note" style="padding:48px 0;text-align:center">Opening the Vault...</div>
+  <div id="closed" class="hide"></div>
+
+  <section id="weekSec" class="hide">
+    <div class="sec-head"><h2>Cookies of the Week</h2><span class="mono" id="weekLabel"></span></div>
+    <div id="featured"></div>
+  </section>
+
+  <section id="menuSec" class="hide">
+    <div class="sec-head"><h2>The Vault</h2><span class="mono">Full menu</span></div>
+    <div id="menu"></div>
+  </section>
+
+  <section id="checkout" class="hide">
+    <div class="sec-head"><h2>Place Your Order</h2></div>
+
+    <div id="success" class="hide">
+      <h2>Order received</h2>
+      <p>Thank you. We'll text or email you shortly to confirm and send payment details.</p>
+    </div>
+
+    <!-- Static form so Netlify Forms can detect it at deploy time -->
+    <form id="orderForm" name="vault-order" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="vault-order">
+      <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+      <input type="hidden" name="order_items" id="f_items">
+      <input type="hidden" name="order_total" id="f_total">
+
+      <div class="mono">Your order</div>
+      <div id="summary" class="summary">Nothing selected yet.</div>
+      <div class="totals">
+        <div><span>Subtotal</span><span id="t_sub">$0.00</span></div>
+        <div><span id="t_taxlabel">Hawaii GET</span><span id="t_tax">$0.00</span></div>
+        <div class="grand"><span>Estimated total</span><span id="t_total">$0.00</span></div>
+      </div>
+      <p class="note" id="deliveryNote"></p>
+
+      <div class="row">
+        <div><label class="mono" for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+        <div><label class="mono" for="phone">Phone</label><input id="phone" name="phone" type="tel" required autocomplete="tel"></div>
+      </div>
+      <label class="mono" for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email">
+
+      <div class="row">
+        <div>
+          <label class="mono" for="method">Pickup or delivery</label>
+          <select id="method" name="fulfillment">
+            <option value="Pickup">Pickup</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+        </div>
+        <div>
+          <label class="mono" for="when">Preferred date / time</label>
+          <input id="when" name="preferred_time" placeholder="e.g. Saturday afternoon">
+        </div>
+      </div>
+
+      <div id="addrBox" class="hide">
+        <label class="mono" for="address">Delivery address</label>
+        <input id="address" name="address" autocomplete="street-address">
+      </div>
+
+      <label class="mono" for="pay">Payment method</label>
+      <select id="pay" name="payment_method">
+        <option>Venmo</option>
+        <option>Cash App</option>
+        <option>Apple Pay</option>
+        <option>Cash at pickup</option>
+      </select>
+      <p class="note" id="payNote"></p>
+
+      <label class="mono" for="notes">Notes</label>
+      <textarea id="notes" name="notes" rows="3" placeholder="Allergies, gift message, anything we should know"></textarea>
+
+      <button class="btn" id="submitBtn" type="submit" disabled>Send Order</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="mono">Sweet Riches</div>
+    <p id="contact"></p>
+  </div>
+</footer>
+
+<div id="bar"><span id="barText" class="mono"></span><a href="#checkout">Checkout</a></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = n => '$' + n.toFixed(2);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let DATA = null;
+const cart = {};
+
+async function loadMenu(){
+  try{
+    const r = await fetch('/api/menu', {cache:'no-store'});
+    if(r.ok){ const j = await r.json(); if(j && j.cookies) return j; }
+  }catch(e){}
+  const r2 = await fetch('/menu.json', {cache:'no-store'});
+  return r2.json();
+}
+
+function itemHTML(c, feat){
+  const sold = !c.available;
+  return `<div class="item ${feat?'feat':''} ${sold?'soldout':''}" data-id="${esc(c.id)}">
+    <div>
+      ${feat?'<span class="tag mono">Cookie of the week</span><br>':''}
+      <h3>${esc(c.name)}</h3>
+      <p>${esc(c.description)}</p>
+      ${sold?'<p class="mono" style="margin-top:8px">Sold out</p>':''}
+    </div>
+    <div>
+      <div class="price">${money(Number(c.price)||0)}</div>
+      <div class="qty">
+        <button type="button" data-act="dec" aria-label="Remove one">&minus;</button>
+        <span id="q_${esc(c.id)}">0</span>
+        <button type="button" data-act="inc" aria-label="Add one">+</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const s = DATA.settings;
+  $('storeName').textContent = s.storeName;
+  document.title = s.storeName;
+  $('tagline').textContent = s.tagline;
+  if(s.banner){ $('banner').textContent = s.banner; $('banner').classList.remove('hide'); }
+  $('loading').classList.add('hide');
+  $('contact').innerHTML = `${esc(s.instagram)} &middot; ${esc(s.email)}`;
+
+  if(s.status !== 'open'){
+    $('closed').textContent = s.closedMessage;
+    $('closed').classList.remove('hide');
+    return;
+  }
+  const feats = DATA.cookies.filter(c => c.featured);
+  const rest = DATA.cookies.filter(c => !c.featured);
+  if(feats.length){
+    $('weekLabel').textContent = s.weekLabel || '';
+    $('featured').innerHTML = feats.map(c => itemHTML(c,true)).join('');
+    $('weekSec').classList.remove('hide');
+  }
+  if(rest.length){
+    $('menu').innerHTML = rest.map(c => itemHTML(c,false)).join('');
+    $('menuSec').classList.remove('hide');
+  }
+  $('checkout').classList.remove('hide');
+  $('deliveryNote').textContent = `${s.pickupInfo} ${s.deliveryInfo}`;
+  $('t_taxlabel').textContent = `Hawaii GET (${s.taxRate}%)`;
+  updatePayNote();
+  update();
+}
+
+function update(){
+  let sub = 0, count = 0, lines = [];
+  DATA.cookies.forEach(c => {
+    const q = cart[c.id] || 0;
+    const el = $('q_'+c.id); if(el) el.textContent = q;
+    if(q){ const t = q*(Number(c.price)||0); sub += t; count += q; lines.push(`${q} x ${c.name}  ${money(t)}`); }
+  });
+  const tax = sub * (Number(DATA.settings.taxRate)||0) / 100;
+  const total = sub + tax;
+  $('summary').textContent = lines.length ? lines.join('\n') : 'Nothing selected yet.';
+  $('t_sub').textContent = money(sub);
+  $('t_tax').textContent = money(tax);
+  $('t_total').textContent = money(total);
+  $('f_items').value = lines.join(' | ');
+  $('f_total').value = money(total);
+  $('submitBtn').disabled = count === 0;
+  $('bar').classList.toggle('on', count > 0);
+  $('barText').textContent = `${count} item${count===1?'':'s'} · ${money(total)}`;
+}
+
+function updatePayNote(){
+  const s = DATA.settings, p = $('pay').value;
+  const m = {'Venmo':`Venmo ${s.venmo}`,'Cash App':`Cash App ${s.cashapp}`,'Apple Pay':`Apple Pay to ${s.applePay}`,'Cash at pickup':'Pay in cash when you pick up.'};
+  $('payNote').textContent = (m[p]||'') + (p==='Cash at pickup' ? '' : ' — we\'ll confirm before you pay.');
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if(!b) return;
+  const id = b.closest('.item').dataset.id;
+  const c = DATA.cookies.find(x => x.id === id);
+  let q = cart[id] || 0;
+  q += b.dataset.act === 'inc' ? 1 : -1;
+  const max = Number(c.limit) > 0 ? Number(c.limit) : 99;
+  cart[id] = Math.max(0, Math.min(max, q));
+  update();
+});
+
+$('method').addEventListener('change', e => $('addrBox').classList.toggle('hide', e.target.value !== 'Delivery'));
+$('pay').addEventListener('change', updatePayNote);
+
+$('orderForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('submitBtn'); btn.disabled = true; btn.textContent = 'Sending...';
+  try{
+    const body = new URLSearchParams(new FormData(e.target)).toString();
+    const r = await fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body});
+    if(!r.ok) throw new Error('bad status');
+    e.target.classList.add('hide');
+    $('success').classList.remove('hide');
+    $('bar').classList.remove('on');
+    $('success').scrollIntoView({behavior:'smooth'});
+  }catch(err){
+    btn.disabled = false; btn.textContent = 'Send Order';
+    alert('Something went wrong sending your order. Please try again or message us on Instagram.');
+  }
+});
+
+loadMenu().then(d => { DATA = d; render(); }).catch(() => {
+  $('loading').textContent = 'Could not load the menu. Please refresh.';
+});
+</script>
+</body>
+</html>
